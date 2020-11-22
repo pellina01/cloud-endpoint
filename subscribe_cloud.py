@@ -1,10 +1,12 @@
+from config_cloud import config
+
 import paho.mqtt.client as mqtt
 import json
 
 # This is the Subscriber
 
-topic = "topic/ph"
-url = "ec2-18-206-177-119.compute-1.amazonaws.com"
+topic = config.topic
+url = config.url
 
 
 def on_connect(client, userdata, flags, rc):
@@ -15,10 +17,9 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    recieved_list = json.loads(msg.payload.decode("utf8"))
-    print(recieved_list["message"])
-    if msg.payload.decode() == "Hello world!":
-        print("Yes!")
+    recieved_list = json.loads(msg.payload.decode("utf-8"))
+    if recieved_list["status"] == "sending":
+        print(recieved_list["message"])
 
 
 client = mqtt.Client()
