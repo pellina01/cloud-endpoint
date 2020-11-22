@@ -18,7 +18,7 @@ def on_message(client, userdata, msg):
 
 
 client = mqtt.Client()
-client.connect("127.0.0.0", 1883, 60)
+client.connect("localhost", 1883, 60)
 
 client.on_connect = on_connect
 client.on_message = on_message
