@@ -6,6 +6,7 @@ import traceback
 import configparser
 
 
+config = configparser.ConfigParser()
 config.read('config.ini')
 
 error = config['cloud']['error_file']
