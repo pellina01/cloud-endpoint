@@ -16,6 +16,7 @@ class listen():
                 self.influxClient.write_points(
                     self.data, database=self.database, protocol='line')
             except Exception as e:
+                print("failed to write to influxdb: ")
                 print(e)
 
         elif recieved_list["status"] == "connected":
@@ -45,7 +46,7 @@ class listen():
             except:
                 if not self.printed:
                     print(
-                        "failed to establish connection with topic: %s,reconnecting..." % self.topic)
+                        "failed to establish connection with topic: %s, reconnecting..." % self.topic)
                     self.printed = True
 
         self.mqttClient.loop_start()

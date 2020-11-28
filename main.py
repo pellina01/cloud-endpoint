@@ -17,10 +17,18 @@ username = config.username
 password = config.password
 
 
-logging.basicConfig(filename=error)
-ph = listen(ph, url, influxHost, database, username, password)
-tb = listen(tb, url, influxHost, database, username, password)
-temp = listen(temp, url, influxHost, database, username, password)
+connected = False
+while connected is False:
+    try:
+        logging.basicConfig(filename=error)
+        ph = listen(ph, url, influxHost, database, username, password)
+        tb = listen(tb, url, influxHost, database, username, password)
+        temp = listen(temp, url, influxHost, database, username, password)
+        connected = True
+    except Exception as e:
+        print("error occured: ")
+        print(e)
+
 
 listening = True
 while True:
