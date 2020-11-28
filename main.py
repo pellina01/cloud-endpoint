@@ -4,17 +4,20 @@ import time
 
 import logging
 import traceback
+import configparser
 
 
-error = config.error_file
-url = config.url
-ph = config.topic_ph
-tb = config.topic_tb
-temp = config.topic_temp
-influxHost = config.influxHost
-database = config.database
-username = config.username
-password = config.password
+config.read('config.ini')
+
+error = config['cloud']['error_file']
+url = config['cloud']['url']
+ph = config['cloud']['topic_ph']
+tb = config['cloud']['topic_tb']
+temp = config['cloud']['topic_temp']
+influxHost = config['cloud']['influxHost']
+database = config['cloud']['database']
+username = config['cloud']['username']
+password = config['cloud']['password']
 
 
 logging.basicConfig(filename=error)

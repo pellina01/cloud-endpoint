@@ -1,5 +1,6 @@
 paho-mqtt
 influxdb
+configparser
 
 https://www.influxdata.com/blog/getting-started-python-influxdb/
 https://influxdb-python.readthedocs.io/en/latest/api-documentation.html#influxdb.InfluxDBClient.write_points
