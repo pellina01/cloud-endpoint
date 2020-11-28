@@ -3,9 +3,9 @@ class listen:
     def message_callback_add(self, client, userdata, msg):
         import json
 
-        recieved_list = json.loads(msg.payload.decode("utf-8"))
-        self.data = []
         try:
+            recieved_list = json.loads(msg.payload.decode("utf-8"))
+            self.data = []
             if recieved_list["status"] == "sending":
                 print("recieved message from: %s =" %
                       self.topic + recieved_list["value"])
@@ -27,7 +27,7 @@ class listen:
 
         except Exception as e:
             print("error occured: %s " % e)
-            print("recieved value: %s" % recieved_list)
+            print("recieved value: %s" % msg.payload.decode("utf-8"))
 
     def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
