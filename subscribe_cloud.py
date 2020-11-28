@@ -1,22 +1,14 @@
 class listen():
 
-    def on_connect(self, client, userdata, flags, rc):
-        client.subscribe(self.topic)
-        print("Connected with result code " +
-              str(self.rc) + " subscribed to topic: " + self.topic)
-
     def on_message(self, client, userdata, msg):
         import json
         self.recieved_list = json.loads(self.msg.payload.decode("utf-8"))
         if self.recieved_list["status"] == "sending":
             print(recieved_list["message"])
-            return recieved_list["message"]
         elif self.recieved_list["status"] == "connected":
             print("connected %s" % self.topic)
-            return("connected")
         elif self.recieved_list["status"] == "disconnected":
             print("disconnected %s" % self.topic)
-            return("disconnected")
 
     def __init__(self, topic, url, port=1883, ttl=60):
         import paho.mqtt.client as mqtt
@@ -43,3 +35,7 @@ class listen():
                     self.printed = True
 
         self.client.loop_start()
+
+        client.subscribe(self.topic)
+        print("Connected with result code " +
+              str(self.rc) + " subscribed to topic: " + self.topic)
