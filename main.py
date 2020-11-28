@@ -13,12 +13,14 @@ tb = config.topic_tb
 temp = config.topic_temp
 influxHost = config.influxHost
 database = config.database
+username = config.username
+password = config.password
 
 
 logging.basicConfig(filename=error)
-ph = listen(ph, url, influxHost, database)
-tb = listen(tb, url, influxHost, database)
-temp = listen(temp, url, influxHost, database)
+ph = listen(ph, url, influxHost, database, username, password)
+tb = listen(tb, url, influxHost, database, username, password)
+temp = listen(temp, url, influxHost, database, username, password)
 
 while True:
     try:
