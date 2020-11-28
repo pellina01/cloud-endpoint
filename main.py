@@ -1,5 +1,4 @@
 from influx_mqtt import listen
-from config_cloud import config
 import time
 
 import logging
