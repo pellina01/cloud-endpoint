@@ -24,7 +24,7 @@ class listen:
         elif recieved_list["status"] == "disconnected":
             print("disconnected %s" % self.topic)
 
-    def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, ttl=60):
+    def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
         from influxdb import InfluxDBClient
 
@@ -32,7 +32,7 @@ class listen:
         self.database = database
 
         self.influxClient = InfluxDBClient(
-            host=influxHost, port=influxPort, username=username, password=password)
+            influxHost, influxPort, username, password)
 
         self.mqttClient = mqtt.Client()
 
@@ -40,7 +40,7 @@ class listen:
         self.printed = False
         while self.connected is False:
             try:
-                self.mqttClient.connect(mqtturl, mqttport, ttl)
+                self.mqttClient.connect(mqtturl, mqttport, keepalive)
                 self.connected = True
             except:
                 if not self.printed:
