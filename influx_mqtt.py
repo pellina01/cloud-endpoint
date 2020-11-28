@@ -13,8 +13,10 @@ class listen():
             data.append("{measurement},index={index} value={value} {timestamp}"
                         .format(measurement=self.topic, index=self.topic, value=recieved_list["value"], timestamp=recieved_list["time"]))
 
-            self.influxClient.write_points(
+            respond = self.influxClient.write_points(
                 data, database='awsblog', time_precision='ms', batch_size=1, protocol='line')
+            if respond is False:
+                print("unable to write datapoints for %s" % self.topic)
 
         elif recieved_list["status"] == "connected":
             print("connected %s" % self.topic)
