@@ -37,7 +37,7 @@ class listen:
         self.database = database
 
         self.influxClient = InfluxDBClient(
-            influxHost, mqttport, username, password)
+            influxHost, influxPort, username, password)
 
         self.mqttClient = mqtt.Client()
 
