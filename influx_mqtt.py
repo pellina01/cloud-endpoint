@@ -32,6 +32,8 @@ class listen():
         self.ttl = ttl
         self.influxHost = influxHost
         self.influxPort = influxPort
+        self.username = username
+        self.password = password
 
         self.influxClient = InfluxDBClient(
             host=self.influxHost, port=self.influxPort, username=self.username, password=self.password)
