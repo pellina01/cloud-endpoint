@@ -26,7 +26,8 @@ class listen:
                 print("disconnected %s" % self.topic)
 
         except Exception as e:
-            print("error occured: %s" % e)
+            print("error occured: %s " % e)
+            print("recieved value: %s" % recieved_list)
 
     def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
