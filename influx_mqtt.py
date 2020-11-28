@@ -1,4 +1,4 @@
-class listen():
+class listen:
 
     def message_callback_add(self, client, userdata, msg):
         import json
@@ -16,8 +16,7 @@ class listen():
                 self.influxClient.write_points(
                     self.data, database=self.database, protocol='line')
             except Exception as e:
-                print("failed to write to influxdb: ")
-                print(e)
+                print("failed to write to influxdb: %s" % e)
 
         elif recieved_list["status"] == "connected":
             print("connected %s" % self.topic)
@@ -46,14 +45,14 @@ class listen():
             except:
                 if not self.printed:
                     print(
-                        "failed to establish connection with topic: %s, reconnecting..." % self.topic)
+                        "failed to establish connection with topic: %s, reconnecting..." % topic)
                     self.printed = True
 
         self.mqttClient.loop_start()
 
-        self.mqttClient.subscribe(self.topic)
+        self.mqttClient.subscribe(topic)
 
         self.mqttClient.message_callback_add(
-            self.topic, self.message_callback_add)
+            topic, self.message_callback_add)
 
-        print("Connected and subscribed to topic: " + self.topic)
+        print("Connected and subscribed to topic: %s" % topic)

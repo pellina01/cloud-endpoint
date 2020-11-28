@@ -26,8 +26,7 @@ while connected is False:
         temp = listen(temp, url, influxHost, database, username, password)
         connected = True
     except Exception as e:
-        print("error occured: ")
-        print(e)
+        print("error occured: %s" % e)
 
 
 listening = True
@@ -37,9 +36,8 @@ while True:
             print("listening..")
             listening = False
     except Exception as e:
-        print("error occured: " + traceback.format_exc())
-        print("error message: ")
-        print(e)
+        print("error occured: %s" % traceback.format_exc())
+        print("error message: %s" % e)
         logging.error(traceback.format_exc())
         listening = True
         time.sleep(2)
