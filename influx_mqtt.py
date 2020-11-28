@@ -1,21 +1,20 @@
 class listen():
 
-    def on_message(self, client, userdata, msg):
+    def message_callback_add(self, client, userdata, msg):
         import json
-        import paho.mqtt.client as mqtt
 
         recieved_list = json.loads(msg.payload.decode("utf-8"))
-        data = []
+        self.data = []
         if recieved_list["status"] == "sending":
             print("recieved message from: %s =" %
                   self.topic + recieved_list["value"])
 
-            data.append("{measurement},index={index} value={value} {timestamp}"
-                        .format(measurement=self.topic, index=self.topic, value=recieved_list["value"], timestamp=recieved_list["time"]))
+            self.data.append("{measurement},topic={topic} value={value} {timestamp}"
+                             .format(measurement=self.topic, topic=self.topic, value=recieved_list["value"], timestamp=recieved_list["time"]))
 
             try:
                 self.influxClient.write_points(
-                    data, database='awsblog', time_precision='ms', batch_size=1, protocol='line')
+                    self.data, database=self.database, protocol='line')
             except Exception as e:
                 print(e)
 
@@ -30,24 +29,18 @@ class listen():
         from influxdb import InfluxDBClient
 
         self.topic = topic
-        self.mqtturl = mqtturl
-        self.mqttport = mqttport
-        self.ttl = ttl
-        self.influxHost = influxHost
-        self.influxPort = influxPort
-        self.username = username
-        self.password = password
+        self.database = database
 
         self.influxClient = InfluxDBClient(
-            host=self.influxHost, port=self.influxPort, username=self.username, password=self.password)
+            host=influxHost, port=influxPort, username=username, password=password)
 
-        self.client = mqtt.Client()
+        self.mqttClient = mqtt.Client()
 
         self.connected = False
         self.printed = False
         while self.connected is False:
             try:
-                self.client.connect(self.mqtturl, self.mqttport, self.ttl)
+                self.mqttClient.connect(mqtturl, mqttport, ttl)
                 self.connected = True
             except:
                 if not self.printed:
@@ -55,10 +48,11 @@ class listen():
                         "failed to establish connection with topic: %s,reconnecting..." % self.topic)
                     self.printed = True
 
-        self.client.loop_start()
+        self.mqttClient.loop_start()
 
-        self.client.subscribe(self.topic)
+        self.mqttClient.subscribe(self.topic)
 
-        self.client.message_callback_add(self.topic, self.on_message)
+        self.mqttClient.message_callback_add(
+            self.topic, self.message_callback_add)
 
         print("Connected and subscribed to topic: " + self.topic)
