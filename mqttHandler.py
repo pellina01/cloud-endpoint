@@ -1,15 +1,18 @@
 class listen:
 
     def message_callback_add(self, client, userdata, msg):
-        import json
         try:
-            self.influxHandler.dbsend(json.loads(msg.payload.decode("utf-8")))
+            self.influxHandler.dbsend(
+                self.jsonParser(msg.payload.decode("utf-8")))
         except Exception as e:
             print("error occured: %s" % e)
 
     def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
         from influxHandler import handler
+        import json
+
+        self.jsonParser = json.loads
 
         self.influxHandler = handler(
             influxHost, username, password, database, topic)

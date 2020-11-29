@@ -1,26 +1,27 @@
 class handler:
     def __init__(self, influxHost, username, password, database, topic, influxPort=8086):
         from influxdb import InfluxDBClient
+        import logging
+        import traceback
 
         self.influxClient = InfluxDBClient(
             influxHost, influxPort, username, password)
+
+        self.logging = logging
+        self.traceback = traceback
+        self.logging.basicConfig(filename="error.log")
 
         self.database = database
         self.topic = topic
 
         if topic == "ph":
             self.unit = "pH"
-            print(self.unit)
         elif topic == "tb":
             self.unit = "NTU"
-            print(self.unit)
         elif topic == "temp":
             self.unit = "Celsius"
-            print(self.unit)
         else:
             self.unit = "No unit"
-
-        print("finished influx setup")
 
     def dbsend(self, recieved_list):
         try:
@@ -46,6 +47,7 @@ class handler:
         except Exception as e:
             print("failed to write to DB topic %s" % self.topic)
             print(e)
+            self.logging.error(self.traceback.format_exc())
 
         finally:
             del self.data
