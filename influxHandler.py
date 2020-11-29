@@ -17,6 +17,8 @@ class handler:
         elif topic == "temp":
             self.unit = "Celsius"
             print(self.unit)
+        else:
+            self.unit = "No unit"
 
         print("finished influx setup")
 
