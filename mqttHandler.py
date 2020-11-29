@@ -5,7 +5,7 @@ class listen:
         try:
             self.influxHandler.dbsend(json.loads(msg.payload.decode("utf-8")))
         except Exception as e:
-            print("error occured: %" % e)
+            print("error occured: %s" % e)
 
     def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
