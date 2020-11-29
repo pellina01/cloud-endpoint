@@ -10,13 +10,15 @@ class handler:
 
         if topic == "ph":
             self.unit = "pH"
+            print(self.unit)
         elif topic == "tb":
             self.unit = "NTU"
+            print(self.unit)
         elif topic == "temp":
             self.unit = "Celsius"
+            print(self.unit)
 
         print("finished influx setup")
-        print(self.unit)
 
     def dbsend(self, recieved_list):
         try:
