@@ -4,7 +4,7 @@ class listen:
         import json
         self.influxHandler.dbsend(json.loads(msg.payload.decode("utf-8")))
 
-    def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort, mqttport=1883, keepalive=60):
+    def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
         from influxHandler import handler
 
