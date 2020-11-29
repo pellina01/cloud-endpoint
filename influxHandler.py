@@ -15,11 +15,14 @@ class handler:
         elif topic == "temp":
             self.unit = "Celsius"
 
+        print("finished influx setup")
+        print(self.unit)
+
     def dbsend(self, recieved_list):
         try:
             self.data = []
             if recieved_list["status"] == "sending":
-                print("saving message: %s =" % recieved_list["value"])
+                print("saving message: %s" % recieved_list["value"])
 
                 self.data.append("{measurement},unit={unit} value={value} {timestamp}"
                                  .format(measurement=self.topic, unit=self.unit, value=recieved_list["value"], timestamp=recieved_list["time"]))
