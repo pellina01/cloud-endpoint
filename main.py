@@ -10,7 +10,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 error = config['cloud']['error_file']
-url = config['cloud']['url']
+mqtturl = config['cloud']['mqtt_url']
 ph = config['cloud']['topic_ph']
 tb = config['cloud']['topic_tb']
 temp = config['cloud']['topic_temp']
@@ -21,9 +21,9 @@ password = config['cloud']['password']
 
 
 logging.basicConfig(filename=error)
-ph = listen(ph, url, influxHost, database, username, password)
-tb = listen(tb, url, influxHost, database, username, password)
-temp = listen(temp, url, influxHost, database, username, password)
+ph = listen(ph, mqtturl, influxHost, database, username, password)
+tb = listen(tb, mqtturl, influxHost, database, username, password)
+temp = listen(temp, mqtturl, influxHost, database, username, password)
 
 del config
 
