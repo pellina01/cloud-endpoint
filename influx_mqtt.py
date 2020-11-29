@@ -4,14 +4,14 @@ class listen:
         import json
 
         try:
-            recieved_list = json.loads(msg.payload.decode("utf-8"))
-            self.data = []
-            if recieved_list["status"] == "sending":
+            self.recieved_list = json.loads(msg.payload.decode("utf-8"))
+            if self.recieved_list["status"] == "sending":
                 print("recieved message from: %s =" %
-                      self.topic + recieved_list["value"])
+                      self.topic + self.recieved_list["value"])
 
+                self.data = []
                 self.data.append("{measurement},topic={topic} value={value} {timestamp}"
-                                 .format(measurement=self.topic, topic=self.topic, value=recieved_list["value"], timestamp=recieved_list["time"]))
+                                 .format(measurement=self.topic, topic=self.topic, value=self.recieved_list["value"], timestamp=self.recieved_list["time"]))
 
                 try:
                     self.influxClient.write_points(
@@ -19,15 +19,19 @@ class listen:
                 except Exception as e:
                     print("failed to write to influxdb: %s" % e)
 
-            elif recieved_list["status"] == "connected":
+            elif self.recieved_list["status"] == "connected":
                 print("connected %s" % self.topic)
 
-            elif recieved_list["status"] == "disconnected":
+            elif self.recieved_list["status"] == "disconnected":
                 print("disconnected %s" % self.topic)
 
         except Exception as e:
             print("error occured: %s " % e)
             print("recieved value: %s" % msg.payload.decode("utf-8"))
+
+        finally:
+            del self.recieved_list
+            del self.data
 
     def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
@@ -61,3 +65,6 @@ class listen:
             topic, self.message_callback_add)
 
         print("Connected and subscribed to topic: %s" % topic)
+
+        del self.connected
+        del self.printed

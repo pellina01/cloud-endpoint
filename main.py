@@ -24,8 +24,8 @@ logging.basicConfig(filename=error)
 ph = listen(ph, url, influxHost, database, username, password)
 tb = listen(tb, url, influxHost, database, username, password)
 temp = listen(temp, url, influxHost, database, username, password)
-connected = True
 
+del config
 
 listening = True
 while True:
