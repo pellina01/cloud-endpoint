@@ -20,7 +20,7 @@ topics = [cloud["ph_topic"], cloud["tb_topic"], cloud["temp_topic"]]
 
 sensors = []
 for topic in topics:
-    sensors.append(listen(topic, cloud["mqtturl"], cloud["influxHost"],
+    sensors.append(listen(topic, cloud["url"], cloud["influxHost"],
                           cloud["database"], cloud["username"], cloud["password"]))
 
 
