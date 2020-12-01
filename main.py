@@ -1,31 +1,28 @@
 from mqttHandler import listen
 import time
-
+import json
 import logging
 import traceback
-import configparser
 
 
-config = configparser.ConfigParser()
-config.read('config.ini')
+json_file = open('config.json')
+data = json.load(json_file)
+json_file.close()
 
-error = config['cloud']['error_file']
-mqtturl = config['cloud']['mqtt_url']
-ph = config['cloud']['topic_ph']
-tb = config['cloud']['topic_tb']
-temp = config['cloud']['topic_temp']
-influxHost = config['cloud']['influxHost']
-database = config['cloud']['database']
-username = config['cloud']['username']
-password = config['cloud']['password']
+cloud = {}
+for key, value in data["cloud"].items():
+    cloud.update({key: value})
 
 
-logging.basicConfig(filename=error)
-ph = listen(ph, mqtturl, influxHost, database, username, password)
-tb = listen(tb, mqtturl, influxHost, database, username, password)
-temp = listen(temp, mqtturl, influxHost, database, username, password)
+logging.basicConfig(filename=cloud["error_file"])
 
-del config
+topics = [cloud["ph_topic"], cloud["tb_topic"], cloud["temp_topic"]]
+
+sensors = []
+for topic in topics:
+    sensors.append(listen(topic, cloud["mqtturl"], cloud["influxHost"],
+                          cloud["database"], cloud["username"], cloud["password"]))
+
 
 listening = True
 while True:
