@@ -1,0 +1,13 @@
+https://grafana.com/tutorials/run-grafana-behind-a-proxy/#1
+
+https://community.grafana.com/t/how-to-restart-grafana/8579/3
+
+https://www.howtoforge.com/tutorial/how-to-install-grafana-on-linux-servers/#:~:text=Start%20Grafana%20and%20enable%20it%20to%20run%20automatically%20at%20system%20boot%20everytime.&text=By%20default%2C%20Grafana%20will%20run%20under%20port%203000.
+
+https://docs.huihoo.com/grafana/2.6/installation/configuration/index.html#:~:text=Config%20file%20locations&text=If%20you%20have%20installed%20Grafana,using%20%2D%2Dconfig%20file%20parameter.
+
+http://www.d0wn.com/grafana-service-doesnt-auto-start-with-the-system/
+
+https://stackoverflow.com/questions/16809134/how-to-get-a-list-of-programs-running-with-nohup
+
+ps xw
