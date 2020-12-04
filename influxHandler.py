@@ -29,7 +29,7 @@ class handler:
             if recieved_list["status"] == "sending":
                 print("saving message: %s" % recieved_list["value"])
 
-                self.data.append("{measurement},unit={unit} value={value} time={timestamp}"
+                self.data.append("{measurement},unit={unit} value={value} {timestamp}"
                                  .format(measurement=self.topic, unit=self.unit, value=recieved_list["value"], timestamp=recieved_list["time"]))
 
             elif recieved_list["status"] == "connected":
@@ -40,7 +40,7 @@ class handler:
 
             try:
                 self.influxClient.write_points(
-                    self.data, database=self.database, protocol='line')
+                    self.data, database=self.database, time_precision='ms', batch_size=1, protocol='line')
             except Exception as e:
                 print("failed to write to influxdb: %s" % e)
 
