@@ -29,7 +29,7 @@ class handler:
             if recieved_list["status"] == "sending":
                 print("saving message: %s" % recieved_list["value"])
 
-                self.data.append("{measurement},unit={unit} value={value} {timestamp}"
+                self.data.append("{measurement},unit={unit} value={value} time={timestamp}"
                                  .format(measurement=self.topic, unit=self.unit, value=recieved_list["value"], timestamp=recieved_list["time"]))
 
             elif recieved_list["status"] == "connected":
