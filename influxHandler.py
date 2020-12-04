@@ -38,7 +38,7 @@ class handler:
                         "tags": {
                             "unit": self.unit
                         },
-                        "time": recieved_list["time"],
+                        # "time": recieved_list["time"],
                         "fields": {
                             "value": recieved_list["value"]
                         }
