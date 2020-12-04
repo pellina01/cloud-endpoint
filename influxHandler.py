@@ -27,6 +27,7 @@ class handler:
     def dbsend(self, recieved_list):
         try:
             # self.data = []
+            json_body = []
             if recieved_list["status"] == "sending":
                 # self.data.append("{measurement},unit={unit} value={value} {timestamp}"
                 #                  .format(measurement=self.topic, unit=self.unit, value=recieved_list["value"], timestamp=recieved_list["time"]))
