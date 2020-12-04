@@ -25,11 +25,14 @@ class handler:
 
     def dbsend(self, recieved_list):
         try:
-            self.data = []
+            # self.data = []
             if recieved_list["status"] == "sending":
-                self.data.append("{measurement},unit={unit} value={value} {timestamp}"
-                                 .format(measurement=self.topic, unit=self.unit, value=recieved_list["value"], timestamp=recieved_list["time"]))
-                print("saving message: %s" % self.data)
+                # self.data.append("{measurement},unit={unit} value={value} {timestamp}"
+                #                  .format(measurement=self.topic, unit=self.unit, value=recieved_list["value"], timestamp=recieved_list["time"]))
+                # print("saving message: %s" % self.data)
+                pass
+                self.json_body = [{"measurement": self.topic, "tags": {
+                    "unit": self.unit}, "time": recieved_list["time"], "fields": {"value": recieved_list["value"]}}]
 
             elif recieved_list["status"] == "connected":
                 print("connected %s" % self.topic)
@@ -39,7 +42,7 @@ class handler:
 
             try:
                 self.influxClient.write_points(
-                    self.data, database=self.database, time_precision='ms', batch_size=1, protocol='line')
+                    self.json_body, database=self.database, time_precision='ms', batch_size=1, protocol='line')
             except Exception as e:
                 print("failed to write to influxdb: %s" % e)
 
@@ -49,4 +52,4 @@ class handler:
             self.logging.error(self.traceback.format_exc())
 
         finally:
-            del self.data
+            del self.json_body
