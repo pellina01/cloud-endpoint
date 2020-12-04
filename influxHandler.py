@@ -53,7 +53,7 @@ class handler:
             try:
                 # self.influxClient.write_points(
                 #     self.data, database=self.database, time_precision='ms', batch_size=1, protocol='line')
-                self.influxClient.write_points(json_body)
+                self.influxClient.write_points(json_body, time_precision='ms')
             except Exception as e:
                 print("failed to write to influxdb: %s" % e)
 
