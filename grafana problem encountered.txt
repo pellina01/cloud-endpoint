@@ -11,3 +11,11 @@ http://www.d0wn.com/grafana-service-doesnt-auto-start-with-the-system/
 https://stackoverflow.com/questions/16809134/how-to-get-a-list-of-programs-running-with-nohup
 
 ps xw
+
+restart grafana
+https://support.plesk.com/hc/en-us/articles/360010912579-Advanced-Monitoring-in-Plesk-shows-If-you-re-seeing-this-Grafana-has-failed-to-load-its-application-files
+
+
+/etc/grafana/grafana.ini
+
+https://learn.pimoroni.com/tutorial/sandyj/running-scripts-at-boot
