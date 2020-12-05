@@ -18,4 +18,12 @@ https://support.plesk.com/hc/en-us/articles/360010912579-Advanced-Monitoring-in-
 
 /etc/grafana/grafana.ini
 
+systemctl is-active "cron"
+
 https://learn.pimoroni.com/tutorial/sandyj/running-scripts-at-boot
+
+https://askubuntu.com/questions/817011/run-python-script-on-os-boot
+
+
+ownership of files
+https://careerkarma.com/blog/python-permissionerror-errno-13-permission-denied/#:~:text=Conclusion,group%20can%20access%20the%20file.

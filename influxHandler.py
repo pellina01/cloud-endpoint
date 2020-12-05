@@ -14,6 +14,7 @@ class handler:
 
         # self.database = database
         self.topic = topic
+        self.status_checker = 0
 
         if topic == "ph":
             self.unit = "pH"
@@ -41,6 +42,7 @@ class handler:
                     }]
 
             elif recieved_list["status"] == "connected":
+                self.status_checker += 1
                 json_body = [
                     {
                         "measurement": "{} status".format(self.topic),
@@ -55,18 +57,20 @@ class handler:
                 print("connected %s" % self.topic)
 
             elif recieved_list["status"] == "disconnected":
-                json_body = [
-                    {
-                        "measurement": "{} status".format(self.topic),
-                        "tags": {
-                            "unit": self.unit
-                        },
-                        "fields": {
-                            "status": "disconnected",
-                            "value": "0"
-                        }
-                    }]
-                print("disconnected %s" % self.topic)
+                self.status_checker -= 1
+                if self.status_checker == 0:
+                    json_body = [
+                        {
+                            "measurement": "{} status".format(self.topic),
+                            "tags": {
+                                "unit": self.unit
+                            },
+                            "fields": {
+                                "status": "disconnected",
+                                "value": "0"
+                            }
+                        }]
+                    print("disconnected %s" % self.topic)
 
             try:
                 # self.influxClient.write_points(
