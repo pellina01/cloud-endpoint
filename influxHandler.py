@@ -14,14 +14,14 @@ class handler:
 
         self.topic = topic
         self.status_checker = []
-        if topic == "ph":
-            self.unit = "pH"
-        elif topic == "tb":
-            self.unit = "NTU"
-        elif topic == "temp":
-            self.unit = "Celsius"
-        else:
-            self.unit = "No unit"
+
+        switch = {
+            "ph": "pH",
+            "tb": "NTU",
+            "temp": "Celsius"
+        }
+        self.unit = switch.get(topic, "No unit")
+        del switch
 
         self.value_serializer = self.json_serializer(self.topic, self.unit)
         self.status_serializer = self.json_serializer(
