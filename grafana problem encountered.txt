@@ -10,7 +10,9 @@ http://www.d0wn.com/grafana-service-doesnt-auto-start-with-the-system/
 
 https://stackoverflow.com/questions/16809134/how-to-get-a-list-of-programs-running-with-nohup
 
-ps xw
+ps wx
+kill -9 PID
+ps -ef | grep "command name"
 
 restart grafana
 https://support.plesk.com/hc/en-us/articles/360010912579-Advanced-Monitoring-in-Plesk-shows-If-you-re-seeing-this-Grafana-has-failed-to-load-its-application-files
