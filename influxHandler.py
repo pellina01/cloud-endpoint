@@ -26,12 +26,8 @@ class handler:
 
     def dbsend(self, recieved_list):
         try:
-            # self.data = []
             json_body = []
             if recieved_list["status"] == "sending":
-                # self.data.append("{measurement},unit={unit} value={value} {timestamp}"
-                #                  .format(measurement=self.topic, unit=self.unit, value=recieved_list["value"], timestamp=recieved_list["time"]))
-                # print("saving message: %s" % self.data)
                 json_body = [
                     {
                         "measurement": self.topic,
@@ -45,9 +41,31 @@ class handler:
                     }]
 
             elif recieved_list["status"] == "connected":
+                json_body = [
+                    {
+                        "measurement": "{} status".format(self.topic),
+                        "tags": {
+                            "unit": self.unit
+                        },
+                        "fields": {
+                            "status": "connected",
+                            "value": "1"
+                        }
+                    }]
                 print("connected %s" % self.topic)
 
             elif recieved_list["status"] == "disconnected":
+                json_body = [
+                    {
+                        "measurement": "{} status".format(self.topic),
+                        "tags": {
+                            "unit": self.unit
+                        },
+                        "fields": {
+                            "status": "disconnected",
+                            "value": "0"
+                        }
+                    }]
                 print("disconnected %s" % self.topic)
 
             try:
