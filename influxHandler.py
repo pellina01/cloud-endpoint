@@ -50,6 +50,7 @@ class handler:
                 if len(self.status_checker) < 1:
                     json_body.append(self.status_serializer("connected"))
                     self.status_checker.append("placeholder")
+                    print("connected %s" % self.topic)
 
             elif recieved_list["status"] == "connected":
                 self.status_checker.append("placeholder")
