@@ -43,13 +43,13 @@ class handler:
         return serialize
 
     def dbsend(self, recieved_list):
-
         try:
             json_body = []
             if recieved_list["status"] == "sending":
                 json_body = self.value_serializer(recieved_list["value"])
                 if len(self.status_checker) < 1:
                     json_body.append(self.status_serializer("connected"))
+                    self.status_checker.append("placeholder")
 
             elif recieved_list["status"] == "connected":
                 self.status_checker.append("placeholder")
@@ -59,11 +59,11 @@ class handler:
             elif recieved_list["status"] == "disconnected":
                 try:
                     self.status_checker.pop(0)
+                    if len(self.status_checker) < 1:
+                        json_body = self.status_serializer("disconnected")
+                        print("disconnected %s" % self.topic)
                 except:
                     pass
-                else:
-                    json_body = self.status_serializer("disconnected")
-                    print("disconnected %s" % self.topic)
 
             try:
                 self.influxClient.write_points(
