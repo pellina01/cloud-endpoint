@@ -27,6 +27,34 @@ class handler:
         self.status_serializer = self.json_serializer(
             "{}_status".format(self.topic), self.unit)
 
+    def sending(self, *args):
+        try:
+            args[0].append(self.value_serializer(args[1]["value"]))
+        except:
+            pass
+        if len(self.status_checker) < 1:
+            args[0].append(self.status_serializer("connected"))
+            self.status_checker.append("placeholder")
+            print("connected %s" % self.topic)
+        return args[0]
+
+    def connected(self, *args):
+        self.status_checker.append("placeholder")
+        if len(self.status_checker) == 1:
+            args[0].append(self.status_serializer("connected"))
+            print("connected %s" % self.topic)
+        return args[0]
+
+    def disconnected(self, *args):
+        try:
+            self.status_checker.pop(0)
+        except:
+            pass
+        if len(self.status_checker) < 1:
+            args[0].append(self.status_serializer("disconnected"))
+            print("disconnected %s" % self.topic)
+        return args[0]
+
     def json_serializer(self, measurement, tag):
         def serialize(field):
             return {
@@ -34,7 +62,7 @@ class handler:
                 "tags": {
                     "unit": tag
                 },
-                "fields": {
+                "fields":   {
                     "value": field
                 }
             }
@@ -42,34 +70,11 @@ class handler:
 
     def dbsend(self, recieved_list):
         try:
-            json_body = []
-            if recieved_list["status"] == "sending":
-                json_body.append(self.value_serializer(recieved_list["value"]))
-                if len(self.status_checker) < 1:
-                    json_body.append(self.status_serializer("connected"))
-                    self.status_checker.append("placeholder")
-                    print("connected %s" % self.topic)
-
-            elif recieved_list["status"] == "connected":
-                self.status_checker.append("placeholder")
-                if len(self.status_checker) == 1:
-                    json_body.append(self.status_serializer("connected"))
-                    print("connected %s" % self.topic)
-
-            elif recieved_list["status"] == "disconnected":
-                self.status_checker.pop(0)
-                if len(self.status_checker) < 1:
-                    json_body.append(
-                        self.status_serializer("disconnected"))
-                    print("disconnected %s" % self.topic)
-
             self.influxClient.write_points(
-                json_body, time_precision='ms', protocol='json')
-
+                getattr(handler, recieved_list["status"])(
+                    self, [], recieved_list), time_precision='ms', protocol='json')
+# second parameter of getattr must always be empty list since the function needs an empty lists
         except Exception as e:
             print("failed to write to DB topic %s" % self.topic)
             print(e)
             self.logging.error(self.traceback.format_exc())
-
-        finally:
-            del json_body
