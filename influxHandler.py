@@ -27,11 +27,33 @@ class handler:
         self.status_serializer = self.json_serializer(
             "{}_status".format(self.topic), self.unit)
 
-    def sending(self, *args):
+    def json_serializer(self, measurement, tag):
+        def serialize(field):
+            return {
+                "measurement": measurement,
+                "tags": {
+                    "unit": tag
+                },
+                "fields":   {
+                    "value": field
+                }
+            }
+        return serialize
+
+    def dbsend(self, recieved_list):
         try:
-            args[0].append(self.value_serializer(args[1]["value"]))
-        except:
-            pass
+            self.influxClient.write_points(
+                getattr(handler, recieved_list["status"])(
+                    self, [], recieved_list["value"]),
+                time_precision='ms', protocol='json')
+# second parameter of getattr must always be empty list since the function needs an empty lists
+        except Exception as e:
+            print("failed to write to DB topic %s" % self.topic)
+            print(e)
+            self.logging.error(self.traceback.format_exc())
+
+    def sending(self, *args):
+        args[0].append(self.value_serializer(args[1]))
         if len(self.status_checker) < 1:
             args[0].append(self.status_serializer("connected"))
             self.status_checker.append("placeholder")
@@ -54,27 +76,3 @@ class handler:
             args[0].append(self.status_serializer("disconnected"))
             print("disconnected %s" % self.topic)
         return args[0]
-
-    def json_serializer(self, measurement, tag):
-        def serialize(field):
-            return {
-                "measurement": measurement,
-                "tags": {
-                    "unit": tag
-                },
-                "fields":   {
-                    "value": field
-                }
-            }
-        return serialize
-
-    def dbsend(self, recieved_list):
-        try:
-            self.influxClient.write_points(
-                getattr(handler, recieved_list["status"])(
-                    self, [], recieved_list), time_precision='ms', protocol='json')
-# second parameter of getattr must always be empty list since the function needs an empty lists
-        except Exception as e:
-            print("failed to write to DB topic %s" % self.topic)
-            print(e)
-            self.logging.error(self.traceback.format_exc())
