@@ -12,7 +12,6 @@ class handler:
         self.traceback = traceback
         self.logging.basicConfig(filename="error.log")
 
-        # self.database = database
         self.topic = topic
         self.status_checker = []
         if topic == "ph":
@@ -58,22 +57,14 @@ class handler:
                     print("connected %s" % self.topic)
 
             elif recieved_list["status"] == "disconnected":
-                try:
-                    self.status_checker.pop(0)
-                    if len(self.status_checker) < 1:
-                        json_body.append(
-                            self.status_serializer("disconnected"))
-                        print("disconnected %s" % self.topic)
-                except:
-                    pass
+                self.status_checker.pop(0)
+                if len(self.status_checker) < 1:
+                    json_body.append(
+                        self.status_serializer("disconnected"))
+                    print("disconnected %s" % self.topic)
 
-            try:
-                self.influxClient.write_points(
-                    json_body, time_precision='ms', protocol='json')
-            except Exception as e:
-                print("failed to write to influxdb: %s" % e)
-                print(e)
-                self.logging.error(self.traceback.format_exc())
+            self.influxClient.write_points(
+                json_body, time_precision='ms', protocol='json')
 
         except Exception as e:
             print("failed to write to DB topic %s" % self.topic)
