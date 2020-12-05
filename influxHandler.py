@@ -53,8 +53,9 @@ class handler:
 
             elif recieved_list["status"] == "connected":
                 self.status_checker.append("placeholder")
-                json_body.append(self.status_serializer("connected"))
-                print("connected %s" % self.topic)
+                if len(self.status_checker) == 1:
+                    json_body.append(self.status_serializer("connected"))
+                    print("connected %s" % self.topic)
 
             elif recieved_list["status"] == "disconnected":
                 try:

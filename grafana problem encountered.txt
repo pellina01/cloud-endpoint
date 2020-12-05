@@ -14,6 +14,8 @@ ps wx
 kill -9 PID
 ps -ef | grep "command name"
 
+sudo service grafana-server restart
+
 restart grafana
 https://support.plesk.com/hc/en-us/articles/360010912579-Advanced-Monitoring-in-Plesk-shows-If-you-re-seeing-this-Grafana-has-failed-to-load-its-application-files
 
