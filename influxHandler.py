@@ -57,6 +57,8 @@ class handler:
                     json_body, time_precision='ms', protocol='json')
             except Exception as e:
                 print("failed to write to influxdb: %s" % e)
+                print(e)
+                self.logging.error(self.traceback.format_exc())
 
         except Exception as e:
             print("failed to write to DB topic %s" % self.topic)
