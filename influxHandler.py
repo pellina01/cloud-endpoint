@@ -15,7 +15,6 @@ class handler:
         # self.database = database
         self.topic = topic
         self.status_checker = []
-
         if topic == "ph":
             self.unit = "pH"
         elif topic == "tb":
@@ -25,30 +24,36 @@ class handler:
         else:
             self.unit = "No unit"
 
-    def json_serializer(self, measurement, tag, field):
-        return [
-            {
-                "measurement": measurement,
-                "tags": {
-                    "unit": tag
-                },
-                "fields": {
-                    "value": field
-                }
-            }]
+        self.value_serializer = self.json_serializer(self.topic, self.unit)
+        self.status_serializer = self.json_serializer(
+            "{}_status".format(self.topic), self.unit)
+
+    def json_serializer(self, measurement, tag):
+        def serialize(field):
+            return [
+                {
+                    "measurement": measurement,
+                    "tags": {
+                        "unit": tag
+                    },
+                    "fields": {
+                        "value": field
+                    }
+                }]
+        return serialize
 
     def dbsend(self, recieved_list):
 
         try:
             json_body = []
             if recieved_list["status"] == "sending":
-                json_body = self.json_serializer(
-                    self.topic, self.unit, recieved_list["value"])
+                json_body = self.value_serializer(recieved_list["value"])
+                if len(self.status_checker) < 1:
+                    json_body.append(self.status_serializer("connected"))
 
             elif recieved_list["status"] == "connected":
                 self.status_checker.append("placeholder")
-                json_body = self.json_serializer("{}_status".format(
-                    self.topic), self.unit, recieved_list["value"])
+                json_body = self.status_serializer("connected")
                 print("connected %s" % self.topic)
 
             elif recieved_list["status"] == "disconnected":
@@ -57,8 +62,7 @@ class handler:
                 except:
                     pass
                 else:
-                    json_body = self.json_serializer("{}_status".format(
-                        self.topic), self.unit, recieved_list["value"])
+                    json_body = self.status_serializer("disconnected")
                     print("disconnected %s" % self.topic)
 
             try:
