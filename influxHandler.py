@@ -14,7 +14,7 @@ class handler:
 
         # self.database = database
         self.topic = topic
-        self.status_checker = 0
+        self.status_checker = []
 
         if topic == "ph":
             self.unit = "pH"
@@ -25,56 +25,43 @@ class handler:
         else:
             self.unit = "No unit"
 
+    def json_serializer(self, measurement, tag, field):
+        return [
+            {
+                "measurement": measurement,
+                "tags": {
+                    "unit": tag
+                },
+                "fields": {
+                    "value": field
+                }
+            }]
+
     def dbsend(self, recieved_list):
+
         try:
             json_body = []
             if recieved_list["status"] == "sending":
-                json_body = [
-                    {
-                        "measurement": self.topic,
-                        "tags": {
-                            "unit": self.unit
-                        },
-                        # "time": recieved_list["time"],
-                        "fields": {
-                            "value": recieved_list["value"]
-                        }
-                    }]
+                json_body = self.json_serializer(
+                    self.topic, self.unit, recieved_list["value"])
 
             elif recieved_list["status"] == "connected":
-                self.status_checker += 1
-                json_body = [
-                    {
-                        "measurement": "{} status".format(self.topic),
-                        "tags": {
-                            "unit": self.unit
-                        },
-                        "fields": {
-                            "status": "connected",
-                            "value": "1"
-                        }
-                    }]
+                self.status_checker.append("placeholder")
+                json_body = self.json_serializer("{}_status".format(
+                    self.topic), self.unit, recieved_list["value"])
                 print("connected %s" % self.topic)
 
             elif recieved_list["status"] == "disconnected":
-                self.status_checker -= 1 if self.status_checker > 0 else 0
-                if self.status_checker == 0:
-                    json_body = [
-                        {
-                            "measurement": "{} status".format(self.topic),
-                            "tags": {
-                                "unit": self.unit
-                            },
-                            "fields": {
-                                "status": "disconnected",
-                                "value": "0"
-                            }
-                        }]
+                try:
+                    self.status_checker.pop(0)
+                except:
+                    pass
+                else:
+                    json_body = self.json_serializer("{}_status".format(
+                        self.topic), self.unit, recieved_list["value"])
                     print("disconnected %s" % self.topic)
 
             try:
-                # self.influxClient.write_points(
-                #     self.data, database=self.database, time_precision='ms', batch_size=1, protocol='line')
                 self.influxClient.write_points(
                     json_body, time_precision='ms', protocol='json')
             except Exception as e:
@@ -88,5 +75,4 @@ class handler:
             self.logging.error(self.traceback.format_exc())
 
         finally:
-            # del self.data
             del json_body
