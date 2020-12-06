@@ -66,6 +66,7 @@ class handler:
         if len(self.status_checker) == 1:
             args[0].append(self.status_serializer("connected"))
             print("connected %s" % self.topic)
+        print("length of checker %s" % len(self.status_checker))
         return args[0]
 
     def disconnected(self, *args):
@@ -76,4 +77,5 @@ class handler:
         if len(self.status_checker) < 1:
             args[0].append(self.status_serializer("disconnected"))
             print("disconnected %s" % self.topic)
+        print("length of checker %s" % len(self.status_checker))
         return args[0]
