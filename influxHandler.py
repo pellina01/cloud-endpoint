@@ -42,7 +42,6 @@ class handler:
 
     def dbsend(self, recieved_list):
         try:
-            print(recieved_list["value"])
             self.influxClient.write_points(
                 getattr(handler, recieved_list["status"])(
                     self, [], recieved_list),
