@@ -45,7 +45,7 @@ class handler:
             print(recieved_list["value"])
             self.influxClient.write_points(
                 getattr(handler, recieved_list["status"])(
-                    self, [], recieved_list["value"]),
+                    self, [], recieved_list),
                 time_precision='ms', protocol='json')
 # second parameter of getattr must always be empty list since the function needs an empty lists
         except Exception as e:
@@ -54,7 +54,7 @@ class handler:
             self.logging.error(self.traceback.format_exc())
 
     def sending(self, *args):
-        args[0].append(self.value_serializer(args[1]))
+        args[0].append(self.value_serializer(args[1]["value"]))
         if len(self.status_checker) < 1:
             args[0].append(self.status_serializer("connected"))
             self.status_checker.append("placeholder")
