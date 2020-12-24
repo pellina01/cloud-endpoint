@@ -21,7 +21,6 @@ for topic in topics:
     sensors.append(listen(topic, cloud["url"], cloud["influxHost"],
                           cloud["database"], cloud["username"], cloud["password"]))
 
-
 listening = True
 while True:
     try:
