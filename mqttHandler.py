@@ -41,5 +41,5 @@ class listen:
 
         print("Connected and subscribed to topic: %s" % topic)
 
-        del self.connected
-        del self.printed
+        # del self.connected
+        # del self.printed

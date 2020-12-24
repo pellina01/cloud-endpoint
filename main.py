@@ -4,10 +4,6 @@ import json
 import logging
 import traceback
 
-# json_file = open('config.json')
-# data = json.load(json_file)
-# json_file.close()
-
 with open('config.json', 'r') as file:
     data = json.loads(file.read())
 
