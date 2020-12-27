@@ -17,26 +17,25 @@ class listen:
         self.influxHandler = handler(
             influxHost, username, password, database, topic)
 
-        self.topic = topic
-        self.mqttClient = mqtt.Client()
+        mqttClient = mqtt.Client()
 
-        self.connected = False
-        self.printed = False
-        while self.connected is False:
+        connected = False
+        printed = False
+        while connected is False:
             try:
-                self.mqttClient.connect(mqtturl, mqttport, keepalive)
-                self.connected = True
+                mqttClient.connect(mqtturl, mqttport, keepalive)
+                connected = True
             except:
-                if not self.printed:
+                if not printed:
                     print(
-                        "failed to establish connection with topic: %s, reconnecting..." % topic)
-                    self.printed = True
+                        "failed to establish connection with topic: %s, retryng.." % topic)
+                    printed = True
 
-        self.mqttClient.loop_start()
+        mqttClient.loop_start()
 
-        self.mqttClient.subscribe(topic)
+        mqttClient.subscribe(topic)
 
-        self.mqttClient.message_callback_add(
+        mqttClient.message_callback_add(
             topic, self.message_callback_add)
 
         print("Connected and subscribed to topic: %s" % topic)
