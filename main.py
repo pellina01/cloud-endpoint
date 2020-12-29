@@ -14,7 +14,8 @@ for key, value in data["cloud"].items():
 
 logging.basicConfig(filename=cloud["error_file"])
 
-topics = [cloud["ph_topic"], cloud["tb_topic"], cloud["temp_topic"]]
+topics = [cloud["ph_topic"], cloud["tb_topic"],
+          cloud["temp_topic"], cloud["do_topic"]]
 
 sensors = []
 for topic in topics:
