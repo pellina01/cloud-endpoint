@@ -50,3 +50,15 @@ sudo kill -9 `sudo lsof -t -i:9001
 
 https://phoenixnap.com/kb/redirect-http-to-https-nginx#:~:text=Nginx%20Redirect%20all%20HTTP%20traffic%20to%20HTTPS,-Open%20the%20Nginx&text=Here%20is%20a%20breakdown%20of,this%20is%20a%20permanent%20redirect
 `
+
+
+grafana notification
+https://techexpert.tips/grafana/grafana-email-notification-setup/
+
+
+
+
+
+
+
+
