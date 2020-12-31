@@ -3,7 +3,7 @@ class serializer:
         self.topic = topic
         self.unit = unit
 
-    def serializer(self, recieved_list):
+    def serialize(self, recieved_list):
         return getattr(serializer, recieved_list["status"])(self, recieved_list)
 
     def influx_serializer(self, measurement, tag, field):
