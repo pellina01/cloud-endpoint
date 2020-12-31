@@ -18,10 +18,11 @@ class serializer:
         }]
 
     def sending(self, recieved_list):
-        if float(recieved_list["value"]):
+        try:
+            float(recieved_list["value"])
             return self.influx_serializer(self.topic, self.unit, recieved_list["value"])
-        else:
-            print("input not valid")
+        except:
+            print("invalid input")
 
     def connected(self, recieved_list):
         return self.influx_serializer("{}_status".format(self.topic), self.unit, "connected")
