@@ -7,7 +7,7 @@ class serializer:
         return getattr(serializer, recieved_list["status"])(self, recieved_list)
 
     def influx_serializer(self, measurement, tag, field):
-        return {
+        return [{
             "measurement": measurement,
             "tags": {
                 "unit": tag
@@ -15,7 +15,7 @@ class serializer:
             "fields":   {
                 "value": field
             }
-        }
+        }]
 
     def sending(self, recieved_list):
         return self.influx_serializer(self.topic, self.unit, recieved_list["value"])
