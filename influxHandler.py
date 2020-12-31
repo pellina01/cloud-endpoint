@@ -4,7 +4,7 @@ class handler:
         import logging
         import traceback
         from serializer import serializer
-        from status_validate import status_checker
+        from status_checker import status_checker
 
         self.influxClient = InfluxDBClient(
             influxHost, influxPort, username, password)
