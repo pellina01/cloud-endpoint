@@ -64,6 +64,9 @@ https://stackoverflow.com/questions/43955871/grafana-alert-always-gives-no-data
 influx str to float
 https://stackoverflow.com/questions/56271173/change-fieldtype-string-to-float-in-influx-on-command-show-field-keys
 
+first path segment cannot contain colon error grafana
+https://github.com/grafana/grafana/issues/24882
+
 
 
 
