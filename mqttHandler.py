@@ -39,6 +39,3 @@ class listen:
             topic, self.message_callback_add)
 
         print("Connected and subscribed to topic: %s" % topic)
-
-        # del self.connected
-        # del self.printed
