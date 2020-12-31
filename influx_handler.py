@@ -32,5 +32,5 @@ class handler:
                     time_precision='ms', protocol='json')
         except Exception as e:
             print("failed to write to DB topic %s" % self.topic)
-            print(e)
+            print(self.traceback.format_exc())
             self.logging.error(self.traceback.format_exc())
