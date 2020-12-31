@@ -55,7 +55,8 @@ https://phoenixnap.com/kb/redirect-http-to-https-nginx#:~:text=Nginx%20Redirect%
 grafana notification
 https://techexpert.tips/grafana/grafana-email-notification-setup/
 
-
+pkill -9 python3
+/etc/init.d/grafana-server restart
 
 
 
