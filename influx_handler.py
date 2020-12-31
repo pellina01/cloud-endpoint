@@ -27,7 +27,6 @@ class handler:
     def dbsend(self, recieved_list):
         try:
             if self.checker.isValid(recieved_list):
-                print(self.serializer.serialize(recieved_list))
                 self.influxClient.write_points(
                     self.serializer.serialize(recieved_list),
                     time_precision='ms', protocol='json')
