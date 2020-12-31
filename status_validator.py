@@ -1,4 +1,4 @@
-class status_checker:
+class status_validate:
     def __init__(self):
         self.counter = 0
 

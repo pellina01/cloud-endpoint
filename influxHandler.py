@@ -4,7 +4,7 @@ class handler:
         import logging
         import traceback
         from serializer import serializer
-        from status_checker import status_checker
+        from status_validator import status_validate
 
         self.influxClient = InfluxDBClient(
             influxHost, influxPort, username, password)
@@ -22,11 +22,11 @@ class handler:
         }
 
         self.serializer = serializer(topic, switch.get(topic, "No unit"))
-        self.checker = status_checker()
+        self.validate = status_validate()
 
     def dbsend(self, recieved_list):
         try:
-            if self.checker.isValid(recieved_list):
+            if self.validate.isValid(recieved_list):
                 self.influxClient.write_points(
                     self.serializer.serialize(recieved_list),
                     time_precision='ms', protocol='json')
