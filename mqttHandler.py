@@ -9,7 +9,8 @@ class listen:
 
     def __init__(self, topic, mqtturl, influxHost, database, username, password, influxPort=8086, mqttport=1883, keepalive=60):
         import paho.mqtt.client as mqtt
-        from influxHandler import handler
+        # from influxHandler import handler
+        from influx_handler import handler
         import json
 
         self.jsonParser = json.loads

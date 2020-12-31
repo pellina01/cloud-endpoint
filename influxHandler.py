@@ -18,7 +18,8 @@ class handler:
         switch = {
             "ph": "pH",
             "tb": "NTU",
-            "temp": "Celsius"
+            "temp": "Celsius",
+            "do":"mg/L"
         }
         self.unit = switch.get(topic, "No unit")
         del switch
