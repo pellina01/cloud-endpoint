@@ -13,7 +13,7 @@ class handler:
         self.logging = logging
         self.traceback = traceback
         self.logging.basicConfig(filename="error.log")
-
+        self.topic = topic
         switch = {
             "ph": "pH",
             "tb": "NTU",
