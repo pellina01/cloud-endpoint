@@ -18,7 +18,8 @@ class serializer:
         }]
 
     def sending(self, recieved_list):
-        return self.influx_serializer(self.topic, self.unit, float(recieved_list["value"]))
+        float(recieved_list["value"])
+        return self.influx_serializer(self.topic, self.unit, recieved_list["value"])
 
     def connected(self, recieved_list):
         return self.influx_serializer("{}_status".format(self.topic), self.unit, "connected")
