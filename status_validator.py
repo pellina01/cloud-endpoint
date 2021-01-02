@@ -1,10 +1,16 @@
 class status_validate:
     def __init__(self):
         self.counter = 0
+        self.state = {
+        "connected":self.connected(),
+        "disconnected":self.disconnected(),
+        "sending":self.sending()
+        }
 
     def isValid(self, recieved_list):
-        status = recieved_list["status"]
-        return getattr(status_validate, status)(self)
+        # status = recieved_list["status"]
+        return self.state.get(recieved_list["status"], False)
+        # return getattr(status_validate, status)(self)
 
     def connected(self):
         self.counter += 1
