@@ -2,9 +2,14 @@ class serializer:
     def __init__(self, topic, unit):
         self.topic = topic
         self.unit = unit
+        self.state = {
+        "connected":self.connected,
+        "disconnected":self.disconnected,
+        "sending":self.sending
+        }
 
     def serialize(self, recieved_list):
-        return getattr(serializer, recieved_list["status"])(self, recieved_list)
+        return self.state.get(recieved_list["status"])(recieved_list)
 
     def influx_serializer(self, measurement, tag, field):
         return [{

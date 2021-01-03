@@ -8,9 +8,7 @@ class status_validate:
         }
 
     def isValid(self, recieved_list):
-        # status = recieved_list["status"]
         return self.state.get(recieved_list["status"], False)
-        # return getattr(status_validate, status)(self)
 
     def connected(self):
         self.counter += 1
