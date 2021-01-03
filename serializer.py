@@ -3,15 +3,15 @@ class serializer:
         self.topic = topic
         self.unit = unit
         self.state = {
-        "connected":self.connected,
-        "disconnected":self.disconnected,
-        "sending":self.sending
+        "connected":self.__connected,
+        "disconnected":self.__disconnected,
+        "sending":self.__sending
         }
 
     def serialize(self, recieved_list):
         return self.state.get(recieved_list["status"])(recieved_list)
 
-    def influx_serializer(self, measurement, tag, field):
+    def __influx_serializer(self, measurement, tag, field):
         return [{
             "measurement": measurement,
             "tags": {
@@ -22,11 +22,11 @@ class serializer:
             }
         }]
 
-    def sending(self, recieved_list):
-        return self.influx_serializer(self.topic, self.unit, float(recieved_list["value"]))
+    def __sending(self, recieved_list):
+        return self.__influx_serializer(self.topic, self.unit, float(recieved_list["value"]))
 
-    def connected(self, recieved_list):
-        return self.influx_serializer("{}_status".format(self.topic), self.unit, "connected")
+    def __connected(self, recieved_list):
+        return self.__influx_serializer("{}_status".format(self.topic), self.unit, "connected")
 
-    def disconnected(self, recieved_list):
-        return self.influx_serializer("{}_status".format(self.topic), self.unit, "disconnected")
+    def __disconnected(self, recieved_list):
+        return self.__influx_serializer("{}_status".format(self.topic), self.unit, "disconnected")
