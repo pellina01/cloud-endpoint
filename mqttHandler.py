@@ -1,6 +1,6 @@
 class listen:
 
-    def message_callback_add(self, client, userdata, msg):
+    def __message_callback_add(self, client, userdata, msg):
         try:
             self.influxHandler.dbsend(
                 self.jsonParser(msg.payload.decode("utf-8")))
@@ -36,6 +36,6 @@ class listen:
         mqttClient.subscribe(topic)
 
         mqttClient.message_callback_add(
-            topic, self.message_callback_add)
+            topic, self.__message_callback_add)
 
         print("Connected and subscribed to topic: %s" % topic)
