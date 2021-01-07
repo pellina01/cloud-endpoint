@@ -69,5 +69,8 @@ https://github.com/grafana/grafana/issues/24882
 
 
 
+continuous query influxdb
+https://towardsdatascience.com/influxdb-data-retention-f026496d708f
+
 
 
